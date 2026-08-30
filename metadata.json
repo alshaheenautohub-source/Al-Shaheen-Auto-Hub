@@ -1,0 +1,10 @@
+{
+  "name": "Al Shaheen Auto Hub - Vehicle Inspection Report",
+  "description": "Professional offline-ready vehicle inspection and certification report generator for Al Shaheen Auto Hub with interactive 2D body defect mapping, comprehensive multi-point checklist, instant PDF export, and offline sync.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
