@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrandLogo } from './BrandLogo';
 
 interface BrandHeaderProps {
   className?: string;
@@ -39,22 +38,19 @@ export const BrandHeader: React.FC<BrandHeaderProps> = ({
       </div>
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
-        {/* Left: Al Shaheen Logo & Hub Identity */}
-        <div className="flex items-center gap-3">
-          <BrandLogo size={compact ? 'sm' : 'md'} showText={false} />
-          <div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-black italic tracking-tight text-[#0F1F38] font-['Chakra_Petch']">
-                AL SHAHEEN
-              </span>
-              <span className="text-xl sm:text-2xl font-black italic tracking-tight text-red-600 font-['Chakra_Petch']">
-                AUTO HUB
-              </span>
-            </div>
-            <p className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
-              Certified Vehicle Inspection &amp; Certification
-            </p>
+        {/* Left: Hub Identity Text Name Only */}
+        <div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-xl sm:text-2xl font-black italic tracking-tight text-[#0F1F38] font-['Chakra_Petch']">
+              AL SHAHEEN
+            </span>
+            <span className="text-xl sm:text-2xl font-black italic tracking-tight text-red-600 font-['Chakra_Petch']">
+              AUTO HUB
+            </span>
           </div>
+          <p className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
+            Certified Vehicle Inspection &amp; Certification
+          </p>
         </div>
 
         {/* Right: 1 STOP SOLUTION Emblem & Meta Badge */}

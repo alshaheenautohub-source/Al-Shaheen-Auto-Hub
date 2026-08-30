@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { toJpeg } from 'html-to-image';
 import { InspectionReport } from '../types/inspection';
 
 export interface GeneratePdfOptions {
@@ -17,7 +17,16 @@ export async function generateInspectionPdf(
     throw new Error(`Report container #${reportElementId} not found.`);
   }
 
-  options?.onProgress?.(15, 'Preparing print document pages...');
+  options?.onProgress?.(10, 'Preparing print document pages...');
+
+  // Ensure document fonts are loaded before capturing
+  if (document.fonts) {
+    try {
+      await document.fonts.ready;
+    } catch {
+      // ignore font ready errors
+    }
+  }
 
   // Find all printable pages (.pdf-page)
   const pages = container.querySelectorAll<HTMLElement>('.pdf-page');
@@ -38,19 +47,16 @@ export async function generateInspectionPdf(
 
   for (let i = 0; i < pages.length; i++) {
     const pageEl = pages[i];
-    const progressPercent = Math.round(20 + ((i + 1) / pages.length) * 70);
+    const progressPercent = Math.round(15 + ((i + 1) / pages.length) * 75);
     options?.onProgress?.(progressPercent, `Rendering Page ${i + 1} of ${pages.length}...`);
 
-    // Render page to canvas with high DPI
-    const canvas = await html2canvas(pageEl, {
-      scale: 2, // 2x scale for crystal clear typography and diagrams
-      useCORS: true,
-      logging: false,
+    // Render page to JPEG with high fidelity using native browser rendering (supports oklch, flex, svg)
+    const imgData = await toJpeg(pageEl, {
+      quality: 0.95,
+      pixelRatio: 2,
       backgroundColor: '#ffffff',
-      windowWidth: 1000,
+      cacheBust: true,
     });
-
-    const imgData = canvas.toDataURL('image/jpeg', 0.92);
 
     if (i > 0) {
       pdf.addPage();
@@ -77,3 +83,4 @@ export function downloadPdfBlob(blob: Blob, fileName: string) {
   document.body.removeChild(link);
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
+
